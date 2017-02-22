@@ -604,12 +604,16 @@ def init(name,
             )
         elif hypervisor in ['qemu', 'kvm']:
             img_dir = __salt__['config.option']('virt.images')
+            log.debug('Image directory from config option `virt.images` is {0}'
+                      .format(img_dir))
             img_dest = os.path.join(
                 img_dir,
                 name,
                 disk_file_name
             )
+            log.debug('Image destination will be {0}'.format(img_dest))
             img_dir = os.path.dirname(img_dest)
+            log.debug('Image destination directory is  {0}'.format(img_dir))
             sfn = __salt__['cp.cache_file'](image, saltenv)
             log.debug('Image directory is {0}'.format(img_dir))
 
@@ -668,7 +672,7 @@ def init(name,
     if seed and seedable:
         log.debug('Seed command is {0}'.format(seed_cmd))
         __salt__[seed_cmd](
-            img_dest,
+           img_dest,
            id_=name,
            config=kwargs.get('config'),
            install=install,
